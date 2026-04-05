@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}PSU Program Recommendation - Home{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="jumbotron text-white p-5 mb-5" style="background: linear-gradient(135deg, #2c5aa0 0%, #764ba2 100%);">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-7">
+                <h1 class="display-4 fw-bold mb-4">
+                    Discover Your<br>
+                    <span class="text-warning">Perfect PSU (Main Campus) Program</span>
+                </h1>
+                <p class="lead fs-4 mb-4">AI-powered recommendations based on your academic background, skills, and interests. 
+                    Explore all {{ total_programs }} programs across 9 colleges!</p>
+                <div class="d-flex gap-3 flex-wrap">
+                    <a href="{% url 'recommend_form' %}" class="btn btn-warning btn-lg px-5 py-3 fw-bold shadow-lg">
+                        🚀 Get My Recommendations
+                    </a>
+                    <a href="#colleges" class="btn btn-outline-light btn-lg px-5 py-3 fw-bold">
+                        📚 Explore Colleges
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-5 text-center">
+                <img src="{% static 'images/PSU.png' %}" alt="PSU" class="img-fluid" style="max-height: 350px; opacity: 0.9;">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Colleges Section -->
+<section id="colleges" class="container mb-5">
+    <div class="text-center mb-5">
+        <h2 class="display-5 fw-bold mb-3">Our 9 Colleges</h2>
+        <p class="lead text-muted">Choose from {{ total_programs }} official PSU programs</p>
+    </div>
+    <div class="row g-4">
+        {% for college in colleges %}
+        <div class="col-md-6 col-lg-4">
+            <div class="card h-100 shadow hover-card border-0">
+                <div class="card-body text-center p-4">
+                    <div class="college-icon mb-4">
+                        <!-- <img src="{% static 'images/'|add:college.abbreviation|add:'.png' %}" alt="{{ college.name }}" class="img-fluid rounded-circle" style="width: 80px; height: 80px; object-fit: cover;"> -->
+                        <img src="{% static 'images/PSU.png' %}" alt="{{ college.name }}" class="img-fluid rounded-circle" style="width: 80px; height: 80px; object-fit: cover;">
+                    </div>
+                    <h5 class="card-title fw-bold text-primary">{{ college.name }}</h5>
+                    <p class="text-muted small mb-2">{{ college.abbreviation }}</p>
+                    <p class="card-text">{{ college.description|truncatewords:12 }}</p>
+                    <a href="{% url 'college_programs' college.slug %}" class="btn btn-primary">
+                        {{ college.get_num_of_programs }} Programs <i class="fas fa-arrow-right ms-2"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12">
+            <div class="alert alert-info text-center">
+                <i class="fas fa-database fa-2x mb-3 d-block"></i>
+                No colleges found. Run <code>python manage.py seed_psu_data</code>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}

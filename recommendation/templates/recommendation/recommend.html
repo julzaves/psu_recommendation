@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block title %}Get Recommendations - PSU{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class="card shadow-lg border-0">
+                <div class="card-header text-white text-center py-4" style="background: linear-gradient(135deg, #2c5aa0 0%, #764ba2 100%);">
+                    <i class="fas fa-robot fa-3x mb-3"></i>
+                    <h2 class="mb-1 fw-bold">AI Program Recommendation</h2>
+                </div>
+                <div class="card-body p-5">
+                    {% if not show_results %}
+                        <!-- Recommendation Form -->
+                        <form method="post" novalidate>
+                            {% csrf_token %}
+                            {% crispy form %}
+                        </form>
+                    {% else %}
+                        <!-- Results Section -->
+                        <div class="alert alert-success border-0 shadow-sm mb-5">
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-trophy fa-2x text-warning me-3"></i>
+                                <div>
+                                    <h4 class="mb-1">🎉 Your Personalized Recommendations!</h4>
+                                    <p class="mb-0 fw-bold text-primary">
+                                        {{ user_data.full_name }} | GWA: <span class="badge bg-success fs-6">{{ user_data.high_school_gwa|floatformat:0 }}%</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Top 3 Recommendations -->
+                        <div class="row g-4 mb-5">
+                            {% for rec in recommendations %}
+                            {% with forloop.counter0 as rank %}
+                            <div class="col-md-4">
+                                <div class="card h-100 shadow results-card {% if rank == 0 %}match-gold{% elif rank == 1 %}match-silver{% else %}match-bronze{% endif %}">
+                                    <div class="card-header bg-white border-0 pb-0">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <h5 class="mb-0 fw-bold">
+                                                🥇 #{{ forloop.counter }}
+                                            </h5>
+                                            <span class="badge bg-success fs-6 fw-bold px-3 py-2">
+                                                {{ rec.match_score }}% Match
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <h4 class="card-title text-primary mb-3">{{ rec.program }}</h4>
+                                        <div class="mb-3">
+                                            <strong>Why it's perfect:</strong>
+                                            <ul class="mt-2 mb-0">
+                                                {% for reason in rec.reasons %}
+                                                <li class="mb-1"><i class="fas fa-check-circle text-success me-2"></i>{{ reason }}</li>
+                                                {% empty %}
+                                                <li>Excellent overall match!</li>
+                                                {% endfor %}
+                                            </ul>
+                                        </div>
+                                        <div class="mb-3">
+                                            <strong>Duration:</strong> {{ rec.duration }} years<br>
+                                            <strong>Careers:</strong> {{ rec.careers|truncatewords:6 }}
+                                        </div>
+                                        {% if rec.program_obj %}
+                                        <a href="{% url 'program_detail' rec.program_obj.id %}" class="btn btn-primary w-100">
+                                            📖 View Program Details
+                                        </a>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                            {% endwith %}
+                            {% endfor %}
+                        </div>
+
+                        <!-- Retry Button -->
+                        <div class="text-center">
+                            <a href="{% url 'recommend_form' %}" class="btn btn-outline-primary btn-lg px-5 py-3">
+                                🔄 Try Different Answers
+                            </a>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

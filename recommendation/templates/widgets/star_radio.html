@@ -1,0 +1,7 @@
+<div class="star-rating">
+{% for group, options, index in widget.optgroups %}
+  {% for option in options %}
+    {{ option }}
+  {% endfor %}
+{% endfor %}
+</div>

@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ program.name }} - PSU{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <a href="{% url 'home' %}" class="btn btn-outline-secondary mb-4">
+        <i class="fas fa-arrow-left me-2"></i>Back to Home
+    </a>
+    
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="card shadow-lg border-0">
+                <div class="card-header bg-primary text-white py-4">
+                    <h1 class="mb-2">{{ program.get_degree_level_display }} {{ program.name }}</h1>
+                    <p class="lead mb-0">
+                        {{ program.college.name }} | {{ program.duration_years }} years
+                    </p>
+                </div>
+                <div class="card-body">
+                    <h4><i class="fas fa-info-circle text-primary me-2"></i>About the Program</h4>
+                    <p class="lead">{{ program.description }}</p>
+                    
+                    <h5 class="mt-4 mb-3">Career Opportunities</h5>
+                    <p>{{ program.career_paths }}</p>
+                    
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <h6><i class="fas fa-graduation-cap me-2"></i>Ideal For</h6>
+                            <ul>
+                                {% for skill in program.get_skill_list|slice:":5" %}
+                                <li><i class="fas fa-check text-success me-1"></i>{{ skill }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <h6><i class="fas fa-heart me-2"></i>Interests</h6>
+                            <ul>
+                                {% for interest in program.get_interest_list|slice:":5" %}
+                                <li><i class="fas fa-heart text-danger me-1"></i>{{ interest }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <!-- <div class="alert alert-info">
+                        <strong>Tuition:</strong> ~PHP {{ program.tuition_estimate|floatformat:0 }}/semester
+                    </div> -->
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="card shadow-sm">
+                <div class="card-body text-center">
+                    <h5>Ready to apply?</h5>
+                    <a href="{% url 'recommend_form' %}" class="btn btn-primary btn-lg w-100 mb-3">
+                        <i class="fas fa-robot me-2"></i>Get AI Recommendation
+                    </a>
+                    <a href="{% url 'college_programs' program.college.slug %}" class="btn btn-outline-primary w-100">
+                        Other {{ program.college.abbreviation }} Programs
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
