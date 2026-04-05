@@ -1,0 +1,1 @@
+web: gunicorn psu_recommendation.wsgi:application
