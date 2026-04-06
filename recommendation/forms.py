@@ -14,22 +14,22 @@ class RecommendationForm(forms.Form):
     # PERSONAL INFO
     full_name = forms.CharField(
         max_length=100,
-        label="What's your full name? *",
+        label="Full name: ",
         widget=forms.TextInput(attrs={'placeholder': 'e.g., Juan Dela Cruz'})
     )
     email = forms.EmailField(
         required=False,
-        label="Your email (optional)",
+        label="Your email (optional): ",
         widget=forms.EmailInput(attrs={'placeholder': 'you@example.com'})
     )
     high_school = forms.CharField(
         max_length=100,
-        label="Senior High School *",
+        label="Senior High School: ",
         widget=forms.TextInput(attrs={'placeholder': 'e.g., ACLC College of Puerto Princesa'})
     )
     high_school_gwa = forms.DecimalField(
         max_digits=3, decimal_places=0, min_value=70, max_value=100,
-        label="Senior High School GWA *",
+        label="Senior High School GWA: ",
         widget=forms.NumberInput(attrs={'placeholder': 'e.g., 99'})
     )
 
@@ -70,7 +70,7 @@ class RecommendationForm(forms.Form):
                 Column('high_school_gwa', css_class='form-group col-md-4'),
             ),
 
-            HTML('<h4 class="mb-3 mt-4"><i class="fas fa-brain text-success"></i> Academic Skills</h4>'),
+            HTML('<h4 class="mb-3 mt-4"><i class="fas fa-brain text-success"></i>   Skills</h4>'),
             Row(
                 Column('math_skill', css_class='col-md-2'),
                 Column('science_skill', css_class='col-md-2'),
@@ -101,7 +101,7 @@ class RecommendationForm(forms.Form):
             ),
 
             HTML('<hr class="my-4">'),
-            Submit('submit', '🚀 Show My Recommendations',
+            Submit('submit', 'Show My Recommendations',
                    css_class='btn btn-primary btn-lg w-100 fw-bold shadow-lg py-3',
                    style='background: linear-gradient(45deg, #2c5aa0, #f8b500); border: none; font-size: 1.2rem;')
         )

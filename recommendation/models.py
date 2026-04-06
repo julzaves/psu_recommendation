@@ -17,6 +17,7 @@ class College(models.Model):
 
 class PSUProgram(models.Model):
     DEGREE_LEVELS = [
+        ('B', "Bachelor of"),
         ('BS', 'Bachelor of Science'),
         ('BA', 'Bachelor of Arts'),
         ('BSED', 'Bachelor of Secondary Education'),

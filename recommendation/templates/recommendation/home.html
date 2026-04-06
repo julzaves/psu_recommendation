@@ -17,10 +17,11 @@
                     Explore all {{ total_programs }} programs across 9 colleges!</p>
                 <div class="d-flex gap-3 flex-wrap">
                     <a href="{% url 'recommend_form' %}" class="btn btn-warning btn-lg px-5 py-3 fw-bold shadow-lg">
-                        🚀 Get My Recommendations
+                        <i class="fas fa-rocket me-2"></i> Get My Recommendations
                     </a>
+
                     <a href="#colleges" class="btn btn-outline-light btn-lg px-5 py-3 fw-bold">
-                        📚 Explore Colleges
+                        <i class="fas fa-book-open me-2"></i> Explore Colleges
                     </a>
                 </div>
             </div>
@@ -43,8 +44,16 @@
             <div class="card h-100 shadow hover-card border-0">
                 <div class="card-body text-center p-4">
                     <div class="college-icon mb-4">
-                        <!-- <img src="{% static 'images/'|add:college.abbreviation|add:'.png' %}" alt="{{ college.name }}" class="img-fluid rounded-circle" style="width: 80px; height: 80px; object-fit: cover;"> -->
-                        <img src="{% static 'images/PSU.png' %}" alt="{{ college.name }}" class="img-fluid rounded-circle" style="width: 80px; height: 80px; object-fit: cover;">
+                        <img
+                            src="{% static 'images/'|add:college.abbreviation|add:'.png' %}"
+                            alt="{{ college.name }}"
+                            {% if college.abbreviation == 'CAD' %}
+                                class="img-fluid"
+                            {% else %}
+                                class="img-fluid rounded-circle"
+                            {% endif %}
+                            style="width: 100px; height: 100px; object-fit: cover;"
+                        >
                     </div>
                     <h5 class="card-title fw-bold text-primary">{{ college.name }}</h5>
                     <p class="text-muted small mb-2">{{ college.abbreviation }}</p>
@@ -53,13 +62,6 @@
                         {{ college.get_num_of_programs }} Programs <i class="fas fa-arrow-right ms-2"></i>
                     </a>
                 </div>
-            </div>
-        </div>
-        {% empty %}
-        <div class="col-12">
-            <div class="alert alert-info text-center">
-                <i class="fas fa-database fa-2x mb-3 d-block"></i>
-                No colleges found. Run <code>python manage.py seed_psu_data</code>
             </div>
         </div>
         {% endfor %}

@@ -21,7 +21,7 @@
                         <div class="col-md-6 col-lg-4">
                             <div class="card h-100 shadow-sm hover-card">
                                 <div class="card-body">
-                                    <h5 class="card-title">{{ program.get_degree_level_display }} {{ program.name }}</h5>
+                                    <h5 class="card-title">{{ program.get_degree_level_display }} in {{ program.name }}</h5>
                                     <p class="card-text">{{ program.description|truncatewords:20 }}</p>
                                     <div class="mb-3 small">
                                         <span class="badge bg-info">{{ program.duration_years }} years</span>
